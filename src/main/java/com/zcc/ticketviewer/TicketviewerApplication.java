@@ -7,14 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+//import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Scanner;
 
 @Log4j2
 @SpringBootApplication
-@EnableFeignClients
+//@EnableFeignClients
 public class TicketviewerApplication {
 
 	public static void main(String[] args) {

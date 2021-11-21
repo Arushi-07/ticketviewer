@@ -20,14 +20,17 @@ public class TicketService {
     @Autowired
     private SecretService secretService;
 
-    @Autowired
-    private ZccClient zccClient;
+//    @Autowired
+//    private ZccClient zccClient;
 
     public void getTickets(final Integer userId){
         final Secrets secrets = secretService.getSecrets();
+        if(secrets == null){
+            return;
+        }
         log.error("account id  : " + secrets.getAccountId());
         log.error("password  : " + secrets.getPassword());
-        final List<Tickets> tickets = zccClient.getTickets();
+        //final List<Tickets> tickets = zccClient.getTickets();
     }
 
 }
