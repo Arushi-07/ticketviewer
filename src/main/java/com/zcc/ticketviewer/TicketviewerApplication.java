@@ -41,9 +41,12 @@ public class TicketviewerApplication implements CommandLineRunner {
 
 			boolean exitViewer = false;
 			while(true){
-				if(response == null || response.getTickets().size() == 0){
+				if(response == null ){
+					break;
+				}
+				if(response.getTickets().size() == 0){
 					System.out.println("No Tickets found!");
-					continue;
+					break;
 				}
 				for(int i=0;i<response.getTickets().size();i++){
 					System.out.println("ticket url: " + response.getTickets().get(i).getUrl() + " " + "createdAt: " + response.getTickets().get(i).getCreatedAt());

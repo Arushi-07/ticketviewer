@@ -6,6 +6,7 @@ import com.zcc.ticketviewer.client.ZccClient;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
 import com.zcc.ticketviewer.dto.Tickets;
 import com.zcc.ticketviewer.pojo.Secrets;
+import com.zcc.ticketviewer.util.HttpUtil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,45 +32,16 @@ public class TicketService {
     @Autowired
     private SecretService secretService;
 
+    @Autowired
+    private HttpUtil httpUtil;
+
     public GetTicketsResponse getTickets(String requesturl){
         final Secrets secrets = secretService.getSecrets();
         if(secrets == null) {
             return null;
         }
-        HttpURLConnection con = null;
-        try {
-            URL url = new URL(requesturl);
-            String encoding = Base64.getEncoder().encodeToString((secrets.getAccountId()+":"+secrets.getPassword()).getBytes("UTF-8"));
-            con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty ("Authorization", "Basic " + encoding);
-            con.connect();
-            int statusCode = con.getResponseCode();
-            BufferedReader br;
-            if(statusCode == 200){
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        return httpUtil.getResponse(requesturl, secrets.getAccountId(), secrets.getPassword());
 
-                String response = br.lines().collect(Collectors.joining());
-                ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                GetTicketsResponse responseObj = objectMapper.readValue(response, GetTicketsResponse.class);
-                log.error("retrieved tickets size: " + responseObj.getTickets().size());
-                return responseObj;
-
-            } else{
-                log.error("error code: " + con.getResponseMessage());
-
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                return null;
-            }
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-        //final List<Tickets> tickets = zccClient.getTickets();
     }
 
 }
