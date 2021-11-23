@@ -1,36 +1,40 @@
 package com.zcc.ticketviewer.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class Tickets {
 
     @JsonProperty("created_at")
-    private String createdAt;
+    String createdAt;
 
     @JsonProperty("description")
-    private String description;
+    String description;
 
     @JsonProperty("due_at")
-    private String dueAt;
+    String dueAt;
 
     @JsonProperty("external_id")
-    private String externalId;
+    String externalId;
 
     @JsonProperty("group_id")
-    private String groupId;
+    String groupId;
 
     @JsonProperty("organization_id")
-    private String organizationId;
+    String organizationId;
 
     @JsonProperty("priority")
-    private String priority;
+    String priority;
 
     @JsonProperty("status")
-    private String status;
+    String status;
 
     @JsonProperty("type")
-    private String type;
+    String type;
 
     @JsonProperty("url")
-    private String url;
+    String url;
 }
