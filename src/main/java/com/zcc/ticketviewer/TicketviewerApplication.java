@@ -1,7 +1,6 @@
 package com.zcc.ticketviewer;
 
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
-import com.zcc.ticketviewer.dto.Tickets;
 import com.zcc.ticketviewer.services.TicketService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 
 @Log4j2

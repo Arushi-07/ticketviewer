@@ -93,13 +93,12 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.5</version>
-<!--				<configuration>
+				<configuration>
 					<excludes>
-						<exclude>com/baeldung/**/ExcludedPOJO.class</exclude>
-						<exclude>com/baeldung/**/*DTO.*</exclude>
-						<exclude>**/config/*</exclude>
+						<exclude>**/util/*</exclude>
+						<exclude>com/zcc/ticketviewer/TicketviewerApplication.class</exclude>
 					</excludes>
-				</configuration>-->
+				</configuration>
 				<executions>
 					<execution>
 						<goals>

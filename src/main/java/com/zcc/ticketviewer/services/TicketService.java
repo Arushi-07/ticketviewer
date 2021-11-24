@@ -1,10 +1,6 @@
 package com.zcc.ticketviewer.services;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zcc.ticketviewer.client.ZccClient;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
-import com.zcc.ticketviewer.dto.Tickets;
 import com.zcc.ticketviewer.pojo.Secrets;
 import com.zcc.ticketviewer.util.HttpUtil;
 import lombok.AllArgsConstructor;
@@ -36,7 +32,7 @@ public class TicketService {
     private HttpUtil httpUtil;
 
     public GetTicketsResponse getTickets(String requesturl){
-        final Secrets secrets = secretService.getSecrets();
+        final Secrets secrets = secretService.getSecrets("src/main/resources/secrets.json");
         if(secrets == null) {
             return null;
         }

@@ -22,7 +22,6 @@ target/
 .mvn
 mvnw.cmd
 mvnw
-src/main/resources/secrets.json
 
 ### NetBeans ###
 /nbproject/private/

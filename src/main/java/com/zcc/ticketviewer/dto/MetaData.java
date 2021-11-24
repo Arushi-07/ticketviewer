@@ -9,9 +9,7 @@ import lombok.Setter;
 public class MetaData {
 
     @JsonProperty("has_more")
-    boolean hasMore;
+    Boolean hasMore;
 
-    public boolean getHasMore() {
-        return this.hasMore;
-    }
+
 }

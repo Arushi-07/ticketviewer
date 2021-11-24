@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,7 +46,7 @@ public class TicketServiceTest {
 
     @Test
     public void getTicketsError(){
-        when(secretService.getSecrets()).thenReturn(new Secrets("hello", "world"));
+        when(secretService.getSecrets(anyString())).thenReturn(new Secrets("hello", "world"));
         when(httpUtil.getResponse(url, "hello","world")).thenReturn(null);
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
         assertEquals(ticketsResponse, null);
@@ -53,10 +54,17 @@ public class TicketServiceTest {
 
     @Test
     public void getTicketsSuccess(){
-        when(secretService.getSecrets()).thenReturn(new Secrets("hello", "world"));
+        when(secretService.getSecrets(anyString())).thenReturn(new Secrets("hello", "world"));
         when(httpUtil.getResponse(url, "hello","world")).thenReturn(ticketsResponse);
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
         assertEquals(ticketsResponse, this.ticketsResponse);
+    }
+
+    @Test
+    public void testNullSecrets(){
+        when(secretService.getSecrets(anyString())).thenReturn(null);
+        GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
+        assertEquals(ticketsResponse, null);
     }
 
 
