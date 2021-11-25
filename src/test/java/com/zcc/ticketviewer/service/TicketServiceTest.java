@@ -36,6 +36,7 @@ public class TicketServiceTest {
     HttpUtil httpUtil;
 
     GetTicketsResponse ticketsResponse;
+    final Secrets secrets = new Secrets("hello", "world");
 
 
     @Before
@@ -46,24 +47,25 @@ public class TicketServiceTest {
 
     @Test
     public void getTicketsError(){
-        when(secretService.getSecrets(anyString())).thenReturn(new Secrets("hello", "world"));
+
+        //when(secretService.getSecrets(anyString())).thenReturn(secrets);
         when(httpUtil.getResponse(url, "hello","world")).thenReturn(null);
-        GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
+        GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
         assertEquals(ticketsResponse, null);
     }
 
     @Test
     public void getTicketsSuccess(){
-        when(secretService.getSecrets(anyString())).thenReturn(new Secrets("hello", "world"));
+        //when(secretService.getSecrets(anyString())).thenReturn(secrets);
         when(httpUtil.getResponse(url, "hello","world")).thenReturn(ticketsResponse);
-        GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
+        GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
         assertEquals(ticketsResponse, this.ticketsResponse);
     }
 
     @Test
     public void testNullSecrets(){
-        when(secretService.getSecrets(anyString())).thenReturn(null);
-        GetTicketsResponse ticketsResponse = ticketService.getTickets(url);
+       // when(secretService.getSecrets(anyString())).thenReturn(null);
+        GetTicketsResponse ticketsResponse = ticketService.getTickets(url, null);
         assertEquals(ticketsResponse, null);
     }
 

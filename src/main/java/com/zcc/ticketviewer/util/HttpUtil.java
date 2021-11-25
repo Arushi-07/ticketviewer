@@ -35,11 +35,11 @@ public class HttpUtil {
                 String response = br.lines().collect(Collectors.joining());
                 ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 GetTicketsResponse responseObj = objectMapper.readValue(response, GetTicketsResponse.class);
-                log.error("retrieved tickets size: " + responseObj.getTickets().size());
+                //log.error("retrieved tickets size: " + responseObj.getTickets().size());
                 return responseObj;
 
             } else{
-                log.error("error code: " + con.getResponseMessage());
+                //log.error("error code: " + con.getResponseMessage());
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
                 String err = br.lines().collect(Collectors.joining());
                 switch (statusCode){

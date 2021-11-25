@@ -14,7 +14,7 @@ import java.io.IOException;
 @Component
 @AllArgsConstructor
 public class SecretService {
-    private Secrets secrets;
+    Secrets secrets;
 
     // Singleton design pattern
     public Secrets getSecrets(final String secretsPath){

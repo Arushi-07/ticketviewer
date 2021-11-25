@@ -1,4 +1,4 @@
-## Welcome to ticketviewer
+## Welcome to the ticketviewer
 
 This is a ZCC coding challenge
 
