@@ -3,8 +3,8 @@ package com.zcc.ticketviewer.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
+import com.zcc.ticketviewer.exception.MyCustomException;
 import com.zcc.ticketviewer.pojo.Secrets;
-import com.zcc.ticketviewer.services.SecretService;
 import com.zcc.ticketviewer.services.TicketService;
 import com.zcc.ticketviewer.util.HttpUtil;
 import org.junit.Before;
@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,9 +27,6 @@ public class TicketServiceTest {
 
     @InjectMocks
     TicketService ticketService;
-
-    @Mock
-    SecretService secretService;
 
     @Mock
     HttpUtil httpUtil;
@@ -46,7 +42,7 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void getTicketsError(){
+    public void getTicketsError() throws MyCustomException {
 
         //when(secretService.getSecrets(anyString())).thenReturn(secrets);
         when(httpUtil.getResponse(url, "hello","world")).thenReturn(null);
@@ -55,9 +51,9 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void getTicketsSuccess(){
+    public void getTicketsSuccess() throws MyCustomException {
         //when(secretService.getSecrets(anyString())).thenReturn(secrets);
-        when(httpUtil.getResponse(url, "hello","world")).thenReturn(ticketsResponse);
+        when(httpUtil.getResponse(url, "hello","world")).thenReturn("");
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
         assertEquals(ticketsResponse, this.ticketsResponse);
     }

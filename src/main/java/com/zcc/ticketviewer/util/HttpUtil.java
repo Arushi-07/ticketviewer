@@ -1,75 +1,67 @@
 package com.zcc.ticketviewer.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
+import com.zcc.ticketviewer.exception.MyCustomException;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.CustomAutowireConfigurer;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Base64;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Component
 public class HttpUtil {
 
-    public GetTicketsResponse getResponse(final String requesturl, String accountId, String password){
-        try{
-            HttpURLConnection con = null;
-            URL url = new URL(requesturl);
-            String encoding = Base64.getEncoder().encodeToString((accountId+":"+password).getBytes("UTF-8"));
-            con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Authorization", "Basic " + encoding);
-            con.connect();
-            int statusCode = con.getResponseCode();
-            BufferedReader br;
-            if(statusCode == 200){
-                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    @Autowired
+    RestTemplate restTemplate;
 
-                String response = br.lines().collect(Collectors.joining());
-                ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                GetTicketsResponse responseObj = objectMapper.readValue(response, GetTicketsResponse.class);
-                //log.error("retrieved tickets size: " + responseObj.getTickets().size());
-                return responseObj;
+    @Autowired
+    ObjectMapper objectMapper;
 
-            } else{
-                //log.error("error code: " + con.getResponseMessage());
-                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-                String err = br.lines().collect(Collectors.joining());
-                switch (statusCode){
-                    case 401:
-                        err = "Invalid credentials(account id and password), please verify and try again";
-                        break;
-                    case 503:
-                        err = "Zendesk API not available";
-                        break;
-                    case 500:
-                        err = "Internal Server Error";
-                        break;
-                    case 502:
-                        err = "Bad Gateway";
-                        break;
-                    case 504:
-                        err = "Time out while connecting to Zendesk API";
-                        break;
-                    default:
-                        break;
-                }
 
-                System.out.println("error: ");
-                System.out.println(err);
-                return null;
+    public String getResponse(final String requesturl, final String accountId, final String password) throws MyCustomException {
+            String err = "";
+            log.error("here !!!!!!!!!!!!!!!" + requesturl);
+            try{
+                ResponseEntity<Object> response
+                        = restTemplate.exchange(new URI(requesturl), HttpMethod.GET, new HttpEntity(createHeaders(accountId, password)),Object.class);
+                return objectMapper.writeValueAsString(response.getBody());
+            } catch(HttpClientErrorException | HttpServerErrorException ex ){
+                throw new MyCustomException("Http Exceptions", ex.getStatusCode().value());
+
+            } catch( ResourceAccessException ex){
+                throw new MyCustomException(" Resource Success Exception", 500);
+            } catch (URISyntaxException e) {
+                throw new MyCustomException("Unable to generate URI", 500);
+            } catch (JsonProcessingException e) {
+                throw new MyCustomException("Unable to parese response", 500);
             }
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+    }
 
+    HttpHeaders createHeaders(String accountId, String password){
+        return new HttpHeaders() {{
+            String encoding = null;
+            try {
+                encoding = Base64.getEncoder().encodeToString((accountId+":"+password).getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+
+            }
+            String authHeader = "Basic " + encoding;
+            set( "Authorization", authHeader );
+        }};
     }
 }

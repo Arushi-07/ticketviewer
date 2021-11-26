@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Setter
 @Getter
-@Component
 @AllArgsConstructor
 @NoArgsConstructor
 public class Secrets {
