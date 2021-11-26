@@ -1,13 +1,10 @@
 package com.zcc.ticketviewer.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetRequestsResponse;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
 import com.zcc.ticketviewer.exception.MyCustomException;
 import com.zcc.ticketviewer.pojo.Secrets;
-import com.zcc.ticketviewer.util.HttpUtil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +20,7 @@ import java.io.IOException;
 public class TicketService {
 
     @Autowired
-    private HttpUtil httpUtil;
+    private RestApiService httpUtil;
 
     @Autowired
     ObjectMapper objectMapper;

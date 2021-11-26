@@ -1,4 +1,4 @@
-package com.zcc.ticketviewer.util;
+package com.zcc.ticketviewer.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,7 +25,7 @@ import java.util.Base64;
 
 @Log4j2
 @Component
-public class HttpUtil {
+public class RestApiService {
 
     @Autowired
     RestTemplate restTemplate;
@@ -35,7 +36,6 @@ public class HttpUtil {
 
     public String getResponse(final String requesturl, final String accountId, final String password) throws MyCustomException {
             String err = "";
-            log.error("here !!!!!!!!!!!!!!!" + requesturl);
             try{
                 ResponseEntity<Object> response
                         = restTemplate.exchange(new URI(requesturl), HttpMethod.GET, new HttpEntity(createHeaders(accountId, password)),Object.class);
@@ -47,18 +47,18 @@ public class HttpUtil {
                 throw new MyCustomException(" Resource Success Exception", 500);
             } catch (URISyntaxException e) {
                 throw new MyCustomException("Unable to generate URI", 500);
-            } catch (JsonProcessingException e) {
+            } catch (IOException e) {
                 throw new MyCustomException("Unable to parese response", 500);
             }
     }
 
-    HttpHeaders createHeaders(String accountId, String password){
+    public HttpHeaders createHeaders(String accountId, String password){
         return new HttpHeaders() {{
             String encoding = null;
             try {
                 encoding = Base64.getEncoder().encodeToString((accountId+":"+password).getBytes("UTF-8"));
             } catch (UnsupportedEncodingException e) {
-
+                encoding = "";
             }
             String authHeader = "Basic " + encoding;
             set( "Authorization", authHeader );

@@ -95,7 +95,7 @@
 				<version>0.8.5</version>
 				<configuration>
 					<excludes>
-						<exclude>**/util/*</exclude>
+						<exclude>**/client/*</exclude>
 						<exclude>com/zcc/ticketviewer/TicketviewerApplication.class</exclude>
 					</excludes>
 				</configuration>

@@ -1,4 +1,4 @@
-package com.zcc.ticketviewer.services;
+package com.zcc.ticketviewer.client;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

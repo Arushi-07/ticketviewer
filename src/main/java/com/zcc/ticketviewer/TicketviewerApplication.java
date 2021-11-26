@@ -132,11 +132,6 @@ public class TicketviewerApplication implements CommandLineRunner {
 	}
 
 	private GetTicketsResponse convertToTicketsResponse(GetRequestsResponse requests) {
-		try {
-			log.error("requests response: " + objectMapper.writeValueAsString(requests));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
 		GetTicketsResponse getTicketsResponse = new GetTicketsResponse();
 		List<Tickets> tickets = new ArrayList<>();
 		tickets.add(requests.getRequest());
