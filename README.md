@@ -1,6 +1,6 @@
 ## Welcome to the ticketviewer
 
-This is a ZCC coding challenge
+This is a part of Zendesk Coding Challenge.
 
 ## Installation Steps
 This project is in java. To setup the environment for the project, please follow the following steps:
