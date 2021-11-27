@@ -1,6 +1,5 @@
 package com.zcc.ticketviewer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetRequestsResponse;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
@@ -72,8 +71,6 @@ public class TicketviewerApplication implements CommandLineRunner {
 			} else {
 				response = ticketService.getTickets(url, secret);
 			}
-
-
 			boolean exitViewer = false;
 			while(true){
 				if(response == null ){
@@ -85,9 +82,6 @@ public class TicketviewerApplication implements CommandLineRunner {
 				}
 				for(int i=0;i<response.getTickets().size();i++){
 					System.out.println("ticket url: " + response.getTickets().get(i).getUrl() + " " + "createdAt: " + response.getTickets().get(i).getCreatedAt());
-				}
-				if(response.getLinks()!=null){
-					System.out.println("next url: " + response.getLinks().getNext());
 				}
 
 				if(response.getMeta()!=null && response.getMeta().getHasMore()!= null && response.getMeta().getHasMore()){

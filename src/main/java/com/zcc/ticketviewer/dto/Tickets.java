@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+
+/**
+ * The list of tickets in the API response of zendesk
+ */
 @Getter
 @Setter
 public class Tickets {

@@ -26,9 +26,9 @@ public class TicketService {
     ObjectMapper objectMapper;
 
     /**
-     * @param requesturl
-     * @param secrets
-     * @return
+     * @param requesturl the endpoint of the zendesk API to hit
+     * @param secrets Object of Secrets.java type containing account id and password
+     * @return Response of the Zendesk API
      */
     public GetTicketsResponse getTickets(final String requesturl, final Secrets secrets){
         if(secrets == null) {
@@ -49,6 +49,14 @@ public class TicketService {
 
     }
 
+
+    /**
+     *
+     * @param requesturl the endpoint of the zendesk API to hit
+     * @param id ID of the ticket to be retrieved
+     * @param secrets Object of Secrets.java type containing account id and password
+     * @return Response of the Zendesk API
+     */
     public GetRequestsResponse getTicketById(final String requesturl, final int id, final Secrets secrets){
         if(secrets == null) {
             return null;
@@ -68,7 +76,10 @@ public class TicketService {
 
     }
 
-
+    /**
+     *
+     * @param statusCode the integer value of the status code returned by the Zendesk API
+     */
     public void handleException(int statusCode){
         String err = "";
         switch (statusCode){

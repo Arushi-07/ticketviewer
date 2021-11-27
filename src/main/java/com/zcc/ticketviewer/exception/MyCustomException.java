@@ -6,12 +6,15 @@ import lombok.Getter;
 public class MyCustomException extends Exception{
     String message;
     int statusCode;
-    public MyCustomException(String errorMessage, int statusCode){
-        super();
+
+    /**
+     * @param errorMessage message for the exception
+     * @param statusCode status code of the exception
+     */
+    public MyCustomException(final String errorMessage, final int statusCode){
+        super(errorMessage);
         this.message = errorMessage;
         this.statusCode = statusCode;
 
     }
-
-
 }

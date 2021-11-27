@@ -1,15 +1,9 @@
 package com.zcc.ticketviewer.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zcc.ticketviewer.dto.GetTicketsResponse;
 import com.zcc.ticketviewer.exception.MyCustomException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.CustomAutowireConfigurer;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -33,7 +27,14 @@ public class RestApiService {
     @Autowired
     ObjectMapper objectMapper;
 
-
+    /**
+     *
+     * @param requesturl Rest endpoint to hit
+     * @param accountId account ID for basic authorization
+     * @param password password for basic authorization
+     * @return the response of the API
+     * @throws MyCustomException
+     */
     public String getResponse(final String requesturl, final String accountId, final String password) throws MyCustomException {
             String err = "";
             try{
@@ -52,6 +53,12 @@ public class RestApiService {
             }
     }
 
+    /**
+     * Create headers for basic Authorization
+     * @param accountId
+     * @param password
+     * @return HttpHeaders
+     */
     public HttpHeaders createHeaders(String accountId, String password){
         return new HttpHeaders() {{
             String encoding = null;

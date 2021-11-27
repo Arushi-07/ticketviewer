@@ -2,7 +2,6 @@ package com.zcc.ticketviewer.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
 @Setter
 @Getter

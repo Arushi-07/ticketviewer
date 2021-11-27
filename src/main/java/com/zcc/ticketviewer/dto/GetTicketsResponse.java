@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.List;
 
+
+/**
+ * The response of the get tickets API of zendesk
+ */
 @Getter
 @Setter
 public class GetTicketsResponse {
