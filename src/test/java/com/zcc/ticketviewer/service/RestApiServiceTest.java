@@ -2,7 +2,7 @@ package com.zcc.ticketviewer.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zcc.ticketviewer.exception.MyCustomException;
+import com.zcc.ticketviewer.exception.ApiException;
 import com.zcc.ticketviewer.services.RestApiService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +37,7 @@ public class RestApiServiceTest {
     final String password = "world";
 
     @Test
-    public void getResponseSuccess() throws MyCustomException, URISyntaxException, JsonProcessingException {
+    public void getResponseSuccess() throws ApiException, URISyntaxException, JsonProcessingException {
         final String response = "Hello World";
         when(restTemplate.exchange(new URI(requestUrl), HttpMethod.GET, new HttpEntity(restApiService.createHeaders(accountId, password)), Object.class)).thenReturn(new ResponseEntity<Object>("Hello World",HttpStatus.OK));
         when(objectMapper.writeValueAsString(any())).thenReturn(response);
@@ -45,29 +45,29 @@ public class RestApiServiceTest {
         assertEquals(resp, response);
     }
 
-    @Test(expected = MyCustomException.class)
-    public void testHttpClientException() throws MyCustomException, URISyntaxException, JsonProcessingException {
+    @Test(expected = ApiException.class)
+    public void testHttpClientException() throws ApiException, URISyntaxException, JsonProcessingException {
         when(restTemplate.exchange(new URI(requestUrl), HttpMethod.GET, new HttpEntity(restApiService.createHeaders(accountId, password)), Object.class)).thenThrow(new HttpClientErrorException(HttpStatus.BAD_REQUEST));
         restApiService.getResponse(requestUrl, accountId, password);
 
     }
 
-    @Test(expected = MyCustomException.class)
-    public void testResourceAccessException() throws MyCustomException, URISyntaxException, JsonProcessingException {
+    @Test(expected = ApiException.class)
+    public void testResourceAccessException() throws ApiException, URISyntaxException, JsonProcessingException {
         when(restTemplate.exchange(new URI(requestUrl), HttpMethod.GET, new HttpEntity(restApiService.createHeaders(accountId, password)), Object.class)).thenThrow(new ResourceAccessException(""));
         restApiService.getResponse(requestUrl, accountId, password);
 
     }
 
-    @Test(expected = MyCustomException.class)
-    public void testJsonProcessingException() throws MyCustomException, URISyntaxException, JsonProcessingException {
+    @Test(expected = ApiException.class)
+    public void testJsonProcessingException() throws ApiException, URISyntaxException, JsonProcessingException {
         when(restTemplate.exchange(new URI(requestUrl), HttpMethod.GET, new HttpEntity(restApiService.createHeaders(accountId, password)), Object.class)).thenReturn(new ResponseEntity<Object>("Hello World",HttpStatus.OK));
         when(objectMapper.writeValueAsString(any())).thenThrow(new JsonProcessingException("Error"){});
         restApiService.getResponse(requestUrl, accountId, password);
 
     }
-    @Test(expected = MyCustomException.class)
-    public void testURISyntaxException() throws MyCustomException, URISyntaxException, JsonProcessingException {
+    @Test(expected = ApiException.class)
+    public void testURISyntaxException() throws ApiException, URISyntaxException, JsonProcessingException {
         final String response = "Hello World";
         restApiService.getResponse("wrong url", accountId, password);
 

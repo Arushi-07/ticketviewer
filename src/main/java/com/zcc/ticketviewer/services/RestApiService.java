@@ -1,7 +1,7 @@
 package com.zcc.ticketviewer.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zcc.ticketviewer.exception.MyCustomException;
+import com.zcc.ticketviewer.exception.ApiException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -33,23 +33,23 @@ public class RestApiService {
      * @param accountId account ID for basic authorization
      * @param password password for basic authorization
      * @return the response of the API
-     * @throws MyCustomException
+     * @throws ApiException
      */
-    public String getResponse(final String requesturl, final String accountId, final String password) throws MyCustomException {
+    public String getResponse(final String requesturl, final String accountId, final String password) throws ApiException {
             String err = "";
             try{
                 ResponseEntity<Object> response
                         = restTemplate.exchange(new URI(requesturl), HttpMethod.GET, new HttpEntity(createHeaders(accountId, password)),Object.class);
                 return objectMapper.writeValueAsString(response.getBody());
             } catch(HttpClientErrorException | HttpServerErrorException ex ){
-                throw new MyCustomException("Http Exceptions", ex.getStatusCode().value());
+                throw new ApiException("Http Exceptions", ex.getStatusCode().value());
 
             } catch( ResourceAccessException ex){
-                throw new MyCustomException(" Resource Success Exception", 500);
+                throw new ApiException(" Resource Success Exception", 500);
             } catch (URISyntaxException e) {
-                throw new MyCustomException("Unable to generate URI", 500);
+                throw new ApiException("Unable to generate URI", 500);
             } catch (IOException e) {
-                throw new MyCustomException("Unable to parese response", 500);
+                throw new ApiException("Unable to parese response", 500);
             }
     }
 

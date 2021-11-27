@@ -3,7 +3,7 @@ package com.zcc.ticketviewer.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetRequestsResponse;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
-import com.zcc.ticketviewer.exception.MyCustomException;
+import com.zcc.ticketviewer.exception.ApiException;
 import com.zcc.ticketviewer.pojo.Secrets;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -37,7 +37,7 @@ public class TicketService {
         String err="";
         try{
             return objectMapper.readValue(httpUtil.getResponse(requesturl, secrets.getAccountId(), secrets.getPassword()), GetTicketsResponse.class);
-        } catch(MyCustomException ex ){
+        } catch(ApiException ex ){
             handleException(ex.getStatusCode());
             return null;
 
@@ -64,7 +64,7 @@ public class TicketService {
         String err="";
         try{
             return objectMapper.readValue(httpUtil.getResponse(requesturl + id+ ".json", secrets.getAccountId(), secrets.getPassword()), GetRequestsResponse.class);
-        } catch(MyCustomException ex ){
+        } catch(ApiException ex ){
             handleException(ex.getStatusCode());
             return null;
 

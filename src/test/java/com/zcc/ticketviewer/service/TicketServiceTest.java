@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zcc.ticketviewer.dto.GetRequestsResponse;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
-import com.zcc.ticketviewer.exception.MyCustomException;
+import com.zcc.ticketviewer.exception.ApiException;
 import com.zcc.ticketviewer.pojo.Secrets;
 import com.zcc.ticketviewer.services.TicketService;
 import com.zcc.ticketviewer.services.RestApiService;
@@ -50,41 +50,41 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void getTicketsErrorAuthentication() throws MyCustomException {
+    public void getTicketsErrorAuthentication() throws ApiException {
 
         //when(secretService.getSecrets(anyString())).thenReturn(secrets);
-        when(httpUtil.getResponse(url, "hello","world")).thenThrow(new MyCustomException("", 401));
+        when(httpUtil.getResponse(url, "hello","world")).thenThrow(new ApiException("", 401));
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
         assertEquals(ticketsResponse, null);
     }
 
     @Test
-    public void getTicketErrorInternalServerError() throws MyCustomException {
+    public void getTicketErrorInternalServerError() throws ApiException {
 
         //when(secretService.getSecrets(anyString())).thenReturn(secrets);
-        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new MyCustomException("", 500));
+        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new ApiException("", 500));
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
         assertEquals(ticketsResponse, null);
     }
 
     @Test
-    public void getTicketByIdErrorAPINotAvailable() throws MyCustomException {
-        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new MyCustomException("", 503));
+    public void getTicketByIdErrorAPINotAvailable() throws ApiException {
+        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new ApiException("", 503));
         GetRequestsResponse ticketsResponse = ticketService.getTicketById(url, 1,secrets);
         assertEquals(ticketsResponse, null);
     }
 
     @Test
-    public void getTicketErrorBadGateway() throws MyCustomException {
+    public void getTicketErrorBadGateway() throws ApiException {
 
         //when(secretService.getSecrets(anyString())).thenReturn(secrets);
-        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new MyCustomException("", 502));
+        when(httpUtil.getResponse(anyString(), anyString(),anyString())).thenThrow(new ApiException("", 502));
         GetRequestsResponse ticketsResponse = ticketService.getTicketById(url, 1,secrets);
         assertEquals(ticketsResponse, null);
     }
 
     @Test
-    public void getTicketsSuccess() throws MyCustomException, JsonProcessingException {
+    public void getTicketsSuccess() throws ApiException, JsonProcessingException {
         when(httpUtil.getResponse(url, "hello","world")).thenReturn("");
         when(objectMapper.readValue("", GetTicketsResponse.class)).thenReturn(this.ticketsResponse);
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
@@ -92,7 +92,7 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void getRequestSuccess() throws MyCustomException, JsonProcessingException {
+    public void getRequestSuccess() throws ApiException, JsonProcessingException {
         when(httpUtil.getResponse(url + 1 + ".json", "hello","world")).thenReturn("");
         when(objectMapper.readValue("", GetRequestsResponse.class)).thenReturn(this.getRequestsResponse);
         GetRequestsResponse requestsResponse = ticketService.getTicketById(url,1, secrets);
@@ -100,19 +100,19 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void testNullSecretsForGetTickets() throws MyCustomException, JsonProcessingException {
+    public void testNullSecretsForGetTickets() throws ApiException, JsonProcessingException {
         GetTicketsResponse requestsResponse = ticketService.getTickets(url, null);
         assertEquals(requestsResponse, null);
     }
 
     @Test
-    public void testNullSecretsForGetTicketsByID() throws MyCustomException, JsonProcessingException {
+    public void testNullSecretsForGetTicketsByID() throws ApiException, JsonProcessingException {
         GetRequestsResponse requestsResponse = ticketService.getTicketById(url,1, null);
         assertEquals(requestsResponse, null);
     }
 
     @Test
-    public void getTicketsIOException() throws MyCustomException, JsonProcessingException {
+    public void getTicketsIOException() throws ApiException, JsonProcessingException {
         when(httpUtil.getResponse(url, "hello","world")).thenReturn("");
         when(objectMapper.readValue("", GetTicketsResponse.class)).thenThrow(new JsonProcessingException(""){});
         GetTicketsResponse ticketsResponse = ticketService.getTickets(url, secrets);
@@ -120,7 +120,7 @@ public class TicketServiceTest {
     }
 
     @Test
-    public void getTicketByIdIOException() throws MyCustomException, JsonProcessingException {
+    public void getTicketByIdIOException() throws ApiException, JsonProcessingException {
         when(httpUtil.getResponse(url + 1 + ".json", "hello","world")).thenReturn("");
         when(objectMapper.readValue("", GetRequestsResponse.class)).thenThrow(new JsonProcessingException(""){});
         GetRequestsResponse ticketsResponse = ticketService.getTicketById(url, 1, secrets);
