@@ -55,7 +55,7 @@ To view the test coverage of the application, open the following file in the bro
 ```shell
 target/site/jacoco/index.html
 ```
-
+![Unit Test Coverage](src/test/test_files/test_coverage.png )
 
 ## Notes
 1. The application is using pagination and at a time 25 pages will be returned with an option to move forward and backward in the pages.
