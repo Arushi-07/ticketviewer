@@ -12,6 +12,15 @@ import lombok.Setter;
 @Setter
 public class Tickets {
 
+    @JsonProperty("id")
+    String id;
+
+    @JsonProperty("subject")
+    String subject;
+
+    @JsonProperty("requester_id")
+    String requestedId;
+
     @JsonProperty("created_at")
     String createdAt;
 
@@ -41,4 +50,6 @@ public class Tickets {
 
     @JsonProperty("url")
     String url;
+
+
 }

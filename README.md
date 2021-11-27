@@ -1,6 +1,9 @@
 ## Welcome to the ticketviewer
 
-This is a part of Zendesk Coding Challenge.
+This is a part of Zendesk Coding Challenge. Here we are integrating with the Zendesk APIs to get the tickets for an user (not the customer).
+Functionality:
+* Retrieve all the tickets for the logged-in user.
+* Retrieve the ticket based on the ticket number provided
 
 ## Installation Steps
 This project is in java. To setup the environment for the project, please follow the following steps:

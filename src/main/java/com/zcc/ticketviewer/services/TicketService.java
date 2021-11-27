@@ -1,7 +1,7 @@
 package com.zcc.ticketviewer.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zcc.ticketviewer.dto.GetRequestsResponse;
+import com.zcc.ticketviewer.dto.GetTicketByIdResponse;
 import com.zcc.ticketviewer.dto.GetTicketsResponse;
 import com.zcc.ticketviewer.exception.ApiException;
 import com.zcc.ticketviewer.pojo.Secrets;
@@ -30,7 +30,7 @@ public class TicketService {
      * @param secrets Object of Secrets.java type containing account id and password
      * @return Response of the Zendesk API
      */
-    public GetTicketsResponse getTickets(final String requesturl, final Secrets secrets){
+    public GetTicketsResponse getTickets(final String requesturl, final Secrets secrets) throws ApiException {
         if(secrets == null) {
             return null;
         }
@@ -40,10 +40,7 @@ public class TicketService {
         } catch(ApiException ex ){
             handleException(ex.getStatusCode());
             return null;
-
-
         } catch (IOException e) {
-            System.out.println(err);
             return null;
         }
 
@@ -57,20 +54,19 @@ public class TicketService {
      * @param secrets Object of Secrets.java type containing account id and password
      * @return Response of the Zendesk API
      */
-    public GetRequestsResponse getTicketById(final String requesturl, final int id, final Secrets secrets){
+    public GetTicketByIdResponse getTicketById(final String requesturl, final int id, final Secrets secrets) throws ApiException {
         if(secrets == null) {
             return null;
         }
         String err="";
         try{
-            return objectMapper.readValue(httpUtil.getResponse(requesturl + id+ ".json", secrets.getAccountId(), secrets.getPassword()), GetRequestsResponse.class);
+            return objectMapper.readValue(httpUtil.getResponse(requesturl + id+ ".json", secrets.getAccountId(), secrets.getPassword()), GetTicketByIdResponse.class);
         } catch(ApiException ex ){
             handleException(ex.getStatusCode());
             return null;
 
 
         } catch (IOException e) {
-            System.out.println(err);
             return null;
         }
 
@@ -80,7 +76,7 @@ public class TicketService {
      *
      * @param statusCode the integer value of the status code returned by the Zendesk API
      */
-    public void handleException(int statusCode){
+    public void handleException(int statusCode) throws ApiException {
         String err = "";
         switch (statusCode){
             case 401:
@@ -101,7 +97,7 @@ public class TicketService {
             default:
                 break;
         }
-        System.out.println(err);
+        throw new ApiException(err, 500);
     }
 
 }

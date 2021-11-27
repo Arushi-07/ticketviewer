@@ -45,7 +45,7 @@ public class RestApiService {
                 throw new ApiException("Http Exceptions", ex.getStatusCode().value());
 
             } catch( ResourceAccessException ex){
-                throw new ApiException(" Resource Success Exception", 500);
+                throw new ApiException("Resource Success Exception", 500);
             } catch (URISyntaxException e) {
                 throw new ApiException("Unable to generate URI", 500);
             } catch (IOException e) {

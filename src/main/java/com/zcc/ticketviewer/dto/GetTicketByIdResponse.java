@@ -9,8 +9,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GetRequestsResponse {
+public class GetTicketByIdResponse {
 
-    @JsonProperty("request")
-    Tickets request;
+    @JsonProperty("ticket")
+    Tickets ticket;
 }
