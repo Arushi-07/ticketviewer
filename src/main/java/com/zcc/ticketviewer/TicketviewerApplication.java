@@ -90,14 +90,20 @@ public class TicketviewerApplication implements CommandLineRunner {
 						break;
 					}
 					for(int i=0;i<response.getTickets().size();i++){
-						System.out.println("Ticket Details of ticket with id: " + response.getTickets().get(i).getId());
-						System.out.println("title: " + response.getTickets().get(i).getSubject() );
-						System.out.println("created at: " + response.getTickets().get(i).getCreatedAt());
-						System.out.println("requested by: " + response.getTickets().get(i).getRequestedId());
-						System.out.println("status: " + response.getTickets().get(i).getStatus() );
-						if(response.getTickets().get(i).getDescription() != null )
+						if(response.getTickets().get(i).getId() != null )
+							System.out.println("Ticket Details of ticket with id: " + response.getTickets().get(i).getId());
+						if(response.getTickets().get(i).getSubject() != null )
+							System.out.println("title: " + response.getTickets().get(i).getSubject() );
+						if(response.getTickets().get(i).getCreatedAt()!= null )
+							System.out.println("created at: " + response.getTickets().get(i).getCreatedAt());
+						if(response.getTickets().get(i).getRequesterId() != null )
+							System.out.println("requested by: " + response.getTickets().get(i).getRequesterId());
+						if(response.getTickets().get(i).getStatus() != null )
+							System.out.println("status: " + response.getTickets().get(i).getStatus() );
+						if(response.getTickets().get(i).getDescription()  != null )
 							System.out.println("description: " + response.getTickets().get(i).getDescription() );
-						System.out.println("url: " + response.getTickets().get(i).getUrl() );
+						if(response.getTickets().get(i).getUrl() != null )
+							System.out.println("url: " + response.getTickets().get(i).getUrl() );
 						System.out.println("\n\n");
 					}
 
@@ -115,7 +121,7 @@ public class TicketviewerApplication implements CommandLineRunner {
 							break;
 						}
 					} else{
-						System.out.println("All tickets retrieved, please enter from the following: \n4 to return to the main menu\n5 to exit the ticket viewer");
+						System.out.println("Tickets retrieved, please enter from the following: \n4 to return to the main menu\n5 to exit the ticket viewer");
 						int x = Integer.parseInt(in.nextLine());
 						if(x == 3){
 							response = ticketService.getTickets(response.getLinks().getPrev(), secret);

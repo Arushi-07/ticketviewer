@@ -19,7 +19,7 @@ public class Tickets {
     String subject;
 
     @JsonProperty("requester_id")
-    String requestedId;
+    String requesterId;
 
     @JsonProperty("created_at")
     String createdAt;
